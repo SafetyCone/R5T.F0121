@@ -7,7 +7,13 @@ namespace R5T.F0121.Construction
     {
         static void Main()
         {
-            Console.WriteLine("Hello World!");
+            //Demonstrations.Instance.Get_KindMarker();
+            //Demonstrations.Instance.Get_MemberName();
+            //Demonstrations.Instance.Get_OutputTypeName();
+            //Demonstrations.Instance.Get_MethodName();
+            //Demonstrations.Instance.Get_MethodParameterList();
+            Demonstrations.Instance.Get_MethodParameters();
+            //Demonstrations.Instance.Get_SimplestMethodName();
         }
     }
 }
