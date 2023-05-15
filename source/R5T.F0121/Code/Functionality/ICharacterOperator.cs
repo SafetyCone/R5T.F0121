@@ -8,7 +8,7 @@ namespace R5T.F0121
     [FunctionalityMarker]
     public partial interface ICharacterOperator : IFunctionalityMarker
     {
-        public KindMarker ToKindMarker(char value)
+        public IKindMarker ToKindMarker(char value)
         {
             var output = new KindMarker(value);
             return output;

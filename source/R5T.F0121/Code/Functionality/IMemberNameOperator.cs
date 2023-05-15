@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-
+using R5T.F0000;
 using R5T.F0121.Extensions;
 using R5T.T0132;
 using R5T.T0161;
@@ -12,7 +12,7 @@ namespace R5T.F0121
     [FunctionalityMarker]
     public partial interface IMemberNameOperator : IFunctionalityMarker
     {
-        public FullMethodName Get_FullMethodName(IKindMarkedFullMethodName kindMarkedFullMethodName)
+        public IFullMethodName Get_FullMethodName(IKindMarkedFullMethodName kindMarkedFullMethodName)
         {
             var tokens = this.Get_KindMarkerTokens(kindMarkedFullMethodName);
 
@@ -22,7 +22,7 @@ namespace R5T.F0121
             return output;
         }
 
-        public FullPropertyName Get_FullPropertyName(IKindMarkedFullPropertyName kindMarkedFullPropertyName)
+        public IFullPropertyName Get_FullPropertyName(IKindMarkedFullPropertyName kindMarkedFullPropertyName)
         {
             var tokens = this.Get_KindMarkerTokens(kindMarkedFullPropertyName);
 
@@ -41,7 +41,7 @@ namespace R5T.F0121
             return tokens;
         }
 
-        public KindMarker Get_KindMarker(IKindMarked kindMarked)
+        public IKindMarker Get_KindMarker(IKindMarked kindMarked)
         {
             var tokens = this.Get_KindMarkerTokens(kindMarked);
 
@@ -69,8 +69,8 @@ namespace R5T.F0121
         }
 
         public (
-            NamespacedTypedParameterizedMethodName,
-            FullMethodName)
+            INamespacedTypedParameterizedMethodName,
+            IFullMethodName)
         Get_NamespacedTypedParameterizedMethodName(
             IKindMarkedFullMethodName kindMarkedFullMethodName)
         {
@@ -84,7 +84,7 @@ namespace R5T.F0121
             return (output, fullMethodName);
         }
 
-        public NamespacedTypedMethodName Get_NamespacedTypedMethodName(INamespacedTypedParameterizedMethodName namespacedTypedParameterizedMethodName)
+        public INamespacedTypedMethodName Get_NamespacedTypedMethodName(INamespacedTypedParameterizedMethodName namespacedTypedParameterizedMethodName)
         {
             var parameterListStartTokenIndex = this.Get_ParameterListStartTokenIndex(namespacedTypedParameterizedMethodName);
 
@@ -96,7 +96,7 @@ namespace R5T.F0121
             return namespacedTypedMethodName;
         }
 
-        public NamespacedTypedPropertyName Get_NamespacedTypedPropertyName(IFullPropertyName fullPropertyName)
+        public INamespacedTypedPropertyName Get_NamespacedTypedPropertyName(IFullPropertyName fullPropertyName)
         {
             var tokens = this.Get_OutputTypeNameTokens(fullPropertyName);
 
@@ -107,8 +107,8 @@ namespace R5T.F0121
         }
 
         public (
-            NamespacedTypeName,
-            NamespacedTypedMethodName)
+            INamespacedTypeName,
+            INamespacedTypedMethodName)
         Get_NamespacedTypeName(INamespacedTypedParameterizedMethodName namespacedTypedParameterizedMethodName)
         {
             var namspacedTypedMethodName = this.Get_NamespacedTypedMethodName(namespacedTypedParameterizedMethodName);
@@ -120,7 +120,7 @@ namespace R5T.F0121
                 namspacedTypedMethodName);
         }
 
-        public NamespacedTypeName Get_NamespacedTypeName(INamespacedTypeNamedMember namespacedTypeNamedMember)
+        public INamespacedTypeName Get_NamespacedTypeName(INamespacedTypeNamedMember namespacedTypeNamedMember)
         {
             var lastNameTokenSeparatorIndex = this.Get_LastNameTokenSeparatorIndex(namespacedTypeNamedMember);
 
@@ -161,7 +161,7 @@ namespace R5T.F0121
             return tokens;
         }
 
-        public OutputTypeName Get_OutputTypeName(IOutputTypeNamed outputTypeNamed)
+        public IOutputTypeName Get_OutputTypeName(IOutputTypeNamed outputTypeNamed)
         {
             var tokens = this.Get_OutputTypeNameTokens(outputTypeNamed);
 
@@ -213,7 +213,7 @@ namespace R5T.F0121
             return parameterListStartTokenFound.Result;
         }
 
-        public ParameterList Get_ParameterList(IParameterListed parameterListed)
+        public IParameterList Get_ParameterList(IParameterListed parameterListed)
         {
             var parameterListStartTokenIndex = this.Get_ParameterListStartTokenIndex(parameterListed);
 
@@ -237,9 +237,9 @@ namespace R5T.F0121
         }
 
         public (
-            ParameterList,
-            NamespacedTypedParameterizedMethodName,
-            FullMethodName)
+            IParameterList,
+            INamespacedTypedParameterizedMethodName,
+            IFullMethodName)
         Get_ParameterList(
             IKindMarkedFullMethodName kindMarkedFullMethodName)
         {
@@ -253,7 +253,7 @@ namespace R5T.F0121
                 fullMethodName);
         }
 
-        public Parameter[] Get_Parameters(IParameterList parameterList)
+        public IParameter[] Get_Parameters(IParameterList parameterList)
         {
             var parameterTokens = Instances.StringOperator.Split(
                 Instances.Characters.ParameterListParameterSeparator,
@@ -269,8 +269,8 @@ namespace R5T.F0121
         }
 
         public (
-            Parameter[],
-            ParameterList)
+            IParameter[],
+            IParameterList)
         Get_Parameters(
             INamespacedTypedParameterizedMethodName namespacedTypedParameterizedMethodName)
         {
@@ -284,10 +284,10 @@ namespace R5T.F0121
         }
 
         public (
-            Parameter[],
-            ParameterList,
-            NamespacedTypedParameterizedMethodName,
-            FullMethodName)
+            IParameter[],
+            IParameterList,
+            INamespacedTypedParameterizedMethodName,
+            IFullMethodName)
         Get_Parameters(
             IKindMarkedFullMethodName kindMarkedFullMethodName)
         {
@@ -302,7 +302,7 @@ namespace R5T.F0121
                 fullMethodName);
         }
 
-        public SimplePropertyName Get_SimplePropertyName(INamespacedTypedPropertyName namespacedTypedPropertyName)
+        public ISimplePropertyName Get_SimplePropertyName(INamespacedTypedPropertyName namespacedTypedPropertyName)
         {
             var lastNameTokenSeparatorIndex = this.Get_LastNameTokenSeparatorIndex(namespacedTypedPropertyName);
 
@@ -314,7 +314,7 @@ namespace R5T.F0121
             return simplePropertyName;
         }
 
-        public SimpleMethodName Get_SimpleMethodName(INamespacedTypedMethodName namespacedTypedMethodName)
+        public ISimpleMethodName Get_SimpleMethodName(INamespacedTypedMethodName namespacedTypedMethodName)
         {
             var lastNameTokenSeparatorIndex = this.Get_LastNameTokenSeparatorIndex(namespacedTypedMethodName);
 
@@ -326,7 +326,7 @@ namespace R5T.F0121
             return simpleMethodName;
         }
 
-        public SimpleTypeName Get_SimpleTypeName(INamespacedTypeName namespacedTypeName)
+        public ISimpleTypeName Get_SimpleTypeName(INamespacedTypeName namespacedTypeName)
         {
             var isGeneric = this.Is_Generic(namespacedTypeName);
 
@@ -362,8 +362,8 @@ namespace R5T.F0121
         }
 
         public (
-            SimpleTypeName,
-            NamespacedTypeName)
+            ISimpleTypeName,
+            INamespacedTypeName)
         Get_SimpleTypeName(INamespacedTypeNamedMember namespacedTypeNamedMember)
         {
             var namespacedTypeName = this.Get_NamespacedTypeName(namespacedTypeNamedMember);
@@ -376,10 +376,10 @@ namespace R5T.F0121
         }
 
         public (
-            SimpleTypeName,
-            NamespacedTypeName,
-            NamespacedTypedPropertyName,
-            FullPropertyName)
+            ISimpleTypeName,
+            INamespacedTypeName,
+            INamespacedTypedPropertyName,
+            IFullPropertyName)
         Get_SimpleTypeName(IKindMarkedFullPropertyName kindMarkedFullPropertyName)
         {
             var fullPropertyName = this.Get_FullPropertyName(kindMarkedFullPropertyName);
@@ -396,11 +396,11 @@ namespace R5T.F0121
         }
 
         public (
-            SimplestMethodName,
-            SimpleMethodName,
-            NamespacedTypedMethodName,
-            NamespacedTypedParameterizedMethodName,
-            FullMethodName)
+            ISimplestMethodName,
+            ISimpleMethodName,
+            INamespacedTypedMethodName,
+            INamespacedTypedParameterizedMethodName,
+            IFullMethodName)
         Get_SimplestMethodName(IKindMarkedFullMethodName kindMarkedFullMethodName)
         {
             var (namespacedTypedParameterizedMethodName, fullMethodName) = this.Get_NamespacedTypedParameterizedMethodName(kindMarkedFullMethodName);
@@ -419,7 +419,7 @@ namespace R5T.F0121
                 fullMethodName);
         }
 
-        public SimplestMethodName Get_SimplestMethodName(ISimpleMethodName simpleMethodName)
+        public ISimplestMethodName Get_SimplestMethodName(ISimpleMethodName simpleMethodName)
         {
             var isGeneric = this.Is_Generic(simpleMethodName);
 
@@ -454,7 +454,7 @@ namespace R5T.F0121
             return parameterTokenSeparatorIndex;
         }
 
-        public TypeName Get_TypeName(IParameter parameter)
+        public ITypeName Get_TypeName(IParameter parameter)
         {
             var parameterTokenSeparatorIndex = this.Get_ParameterTokenSeparatorIndex(parameter);
 
@@ -482,10 +482,35 @@ namespace R5T.F0121
         public bool Is_Generic(string name)
         {
             var output = Instances.StringOperator.Contains(
-                Instances.Characters.GenericTypeParametersListStartToken,
-                name);
+                name,
+                Instances.Characters.GenericTypeParametersListStartToken);
 
             return output;
+        }
+
+        public WasFound<IKindMarker> Is_KindOneOf(
+            IKindMarked kindMarked,
+            params IKindMarker[] kindMarkers)
+        {
+            var kindMarker = this.Get_KindMarker(kindMarked);
+
+            var foundKindMarkerOrDefault = kindMarkers
+                .Where(x => x.Equals(kindMarker))
+                .FirstOrDefault();
+
+            var output = WasFound.From(foundKindMarkerOrDefault);
+            return output;
+        }
+
+        public void Verify_Is_KindOneOf(
+            IKindMarked kindMarked,
+            params IKindMarker[] kindMarkers)
+        {
+            var isKindOneOf = this.Is_KindOneOf(
+                kindMarked,
+                kindMarkers);
+
+            isKindOneOf.ExceptionIfNotFound($"Kind was not one of one of the provided kinds:\n{kindMarked}");
         }
     }
 }
