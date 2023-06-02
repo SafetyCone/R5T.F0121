@@ -24,5 +24,12 @@ namespace R5T.F0121.Construction
         public IKindMarkedFullMethodName Example_Method03 =>
             "M:R5T.E0047.F001.IReflectedInstanceContextProvider.InExampleClass00Context();System.Void"
             .ToKindMarkedFullMethodName();
+
+        /// <summary>
+        /// Contains a generic type in the parameters list.
+        /// </summary>
+        public IKindMarkedFullMethodName Example_Method04 =>
+            "M:D8S.S0001.IPortfolioExcelFileOperations.UpdatePortfolioFile(System.String portfolioExcelFilePath, System.Collections.Generic.Dictionary<System.String, D8S.S0001.Quote> quotesByTicker);System.Void"
+            .ToKindMarkedFullMethodName();
     }
 }

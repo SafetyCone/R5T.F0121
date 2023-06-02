@@ -36,6 +36,7 @@ namespace R5T.F0121
 
 
         public char GenericTypeParametersListStartToken => Characters.OpenAngleBracket;
+        public char GenericTypeParametersListEndToken => Characters.CloseAngleBracket;
         public char NameTokenSeparator => Characters.Period;
         public char ParameterListEndToken => Characters.CloseParenthesis;
         public char ParameterListParameterSeparator => Characters.Comma;

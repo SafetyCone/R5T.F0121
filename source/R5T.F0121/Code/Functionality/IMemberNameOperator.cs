@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+
 using R5T.F0000;
 using R5T.F0121.Extensions;
 using R5T.T0132;
@@ -255,11 +258,49 @@ namespace R5T.F0121
 
         public IParameter[] Get_Parameters(IParameterList parameterList)
         {
-            var parameterTokens = Instances.StringOperator.Split(
+            // Note, generic type parameters with multiple type arguments use the same list separator.
+            // So we will have to combine tokens if generic type arguments are detected.
+            var rawParameterTokens = Instances.StringOperator.Split(
                 Instances.Characters.ParameterListParameterSeparator,
                 parameterList.Value,
                 StringSplitOptions.RemoveEmptyEntries)
                 .Trim();
+
+            var parameterTokens = new List<string>();
+
+            int genericTypeOpenTokensCount = 0;
+            int genericTypeCloseTokensCount = 0;
+
+            var builder = new StringBuilder();
+
+            foreach (var rawParameterToken in rawParameterTokens)
+            {
+                builder.Append(rawParameterToken);
+
+                genericTypeOpenTokensCount += Instances.StringOperator.CountOf(
+                    Instances.Characters.GenericTypeParametersListStartToken,
+                    rawParameterToken);
+
+                genericTypeCloseTokensCount += Instances.StringOperator.CountOf(
+                    Instances.Characters.GenericTypeParametersListEndToken,
+                    rawParameterToken);
+
+                if(genericTypeOpenTokensCount == genericTypeCloseTokensCount)
+                {
+                    genericTypeOpenTokensCount = 0;
+                    genericTypeCloseTokensCount = 0;
+
+                    var parameterToken = builder.ToString();
+                    builder.Clear();
+
+                    parameterTokens.Add(parameterToken);
+                }
+                else
+                {
+                    // Add back the standard separator.
+                    builder.Append(Instances.Strings.ParameterListTokenSeparator);
+                }
+            }
 
             var parameters = parameterTokens
                 .Select(x => x.ToParameter())
@@ -284,10 +325,10 @@ namespace R5T.F0121
         }
 
         public (
-            IParameter[],
-            IParameterList,
-            INamespacedTypedParameterizedMethodName,
-            IFullMethodName)
+            IParameter[] parameters,
+            IParameterList paramtersList,
+            INamespacedTypedParameterizedMethodName namespacedTypedParameterizedMethodName,
+            IFullMethodName fullMethodName)
         Get_Parameters(
             IKindMarkedFullMethodName kindMarkedFullMethodName)
         {
@@ -438,33 +479,6 @@ namespace R5T.F0121
 
             var simplestMethodName = simplestMethodNameValue.ToSimplestMethodName();
             return simplestMethodName;
-        }
-
-        public int Get_ParameterTokenSeparatorIndex(IParameter parameter)
-        {
-            var parameterTokenSeparatorIndex = Instances.StringOperator.IndexOf(
-                Instances.Characters.ParameterTokenSeparator,
-                parameter.Value);
-
-            if(!parameterTokenSeparatorIndex)
-            {
-                throw new Exception($"Could not find a parameter token separator ('{Instances.Characters.ParameterTokenSeparator}').");
-            }
-
-            return parameterTokenSeparatorIndex;
-        }
-
-        public ITypeName Get_TypeName(IParameter parameter)
-        {
-            var parameterTokenSeparatorIndex = this.Get_ParameterTokenSeparatorIndex(parameter);
-
-            var typeNameValue = Instances.StringOperator.Get_Substring_Upto_Exclusive(
-                parameterTokenSeparatorIndex,
-                parameter.Value)
-                .Trim();
-
-            var typeName = typeNameValue.ToTypeName();
-            return typeName;
         }
 
         public bool Is_Generic(ISimpleMethodName simpleMethodName)

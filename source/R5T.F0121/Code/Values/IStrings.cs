@@ -9,5 +9,6 @@ namespace R5T.F0121
     public partial interface IStrings : IValuesMarker
     {
         public string KindMarkerTokenSeparator => ":";
+        public string ParameterListTokenSeparator => Instances.Strings_F0000.CommaSeparatedListSpacedSeparator;
     }
 }

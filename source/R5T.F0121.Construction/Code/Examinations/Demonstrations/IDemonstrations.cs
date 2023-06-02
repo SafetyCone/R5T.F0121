@@ -15,7 +15,8 @@ namespace R5T.F0121.Construction
             var kindMarkedFullMethodName =
                 //Instances.Values.Example_Method01
                 //Instances.Values.Example_Method02
-                Instances.Values.Example_Method03
+                //Instances.Values.Example_Method03
+                Instances.Values.Example_Method04
                 ;
 
             var (parameters, _, _, _) = Instances.MemberNameOperator.Get_Parameters(kindMarkedFullMethodName);
