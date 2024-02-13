@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using R5T.N0000;
-
 using R5T.F0121.Extensions;
+using R5T.L0089.T000;
 using R5T.T0132;
 using R5T.T0161;
 using R5T.T0161.Extensions;
@@ -525,7 +524,7 @@ namespace R5T.F0121
                 kindMarked,
                 kindMarkers);
 
-            isKindOneOf.ExceptionIfNotFound($"Kind was not one of one of the provided kinds:\n{kindMarked}");
+            isKindOneOf.Get_Result_OrExceptionIfNotFound($"Kind was not one of one of the provided kinds:\n{kindMarked}");
         }
     }
 }

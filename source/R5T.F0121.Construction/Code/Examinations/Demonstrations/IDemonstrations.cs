@@ -21,7 +21,7 @@ namespace R5T.F0121.Construction
 
             var (parameters, _, _, _) = Instances.MemberNameOperator.Get_Parameters(kindMarkedFullMethodName);
 
-            var parametersOutput = Instances.TextOperator.JoinLines(parameters.ToStrings());
+            var parametersOutput = Instances.TextOperator.Join_Lines(parameters.ToStrings());
 
             Console.WriteLine($"{kindMarkedFullMethodName}\n\n{parametersOutput}: parameters");
         }
